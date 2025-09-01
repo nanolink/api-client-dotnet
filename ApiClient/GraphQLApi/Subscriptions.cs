@@ -33,5 +33,56 @@ namespace ApiClient.GraphQLApi
     deleteVersion
   }
 }";
+        public const string MeshBLELinks =
+@"subscription getlinks($transmitterId: String, $opversion: String) {
+  otrackers_getlinksbulk(
+    receiverTypes: [MESH_GATE_TRACKER]
+    transmitterVIDs: [$transmiterId]
+    subscribe: true
+    opversion: $opversion
+    subscriberssiupdates: true
+  ) {
+    type
+    total
+    deleteId
+    data {
+      id
+      creationTime
+      lastUpdated
+      receiverVID
+      transmitterVID
+      rSSI
+      opVersion
+      deleted
+      disabled
+    }
+    deleteVersion
+  }
+}";
+        public const string MeshBLELinksAll =
+@"subscription getlinks($opversion: String) {
+  otrackers_getlinksbulk(
+    receiverTypes: [MESH_GATE_TRACKER]
+    subscribe: true
+    opversion: $opversion
+    subscriberssiupdates: true
+  ) {
+    type
+    total
+    deleteId
+    data {
+      id
+      creationTime
+      lastUpdated
+      receiverVID
+      transmitterVID
+      rSSI
+      opVersion
+      deleted
+      disabled
+    }
+    deleteVersion
+  }
+}";
     }
 }

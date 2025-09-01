@@ -24,5 +24,15 @@ namespace ApiClient
             }
             return GetMessages<TrackerPositionsResponse>(Subscriptions.TrackerPositions, new { trackers,  opversion }, CancellationToken.None);
         }
+        public IObservable<GraphQLResponse<BLELinksResponse>> GetMeshLinks(string transmitterId)
+        {
+            string? opversion = null;
+            return GetMessages<BLELinksResponse>(Subscriptions.MeshBLELinks, new { transmitterId, opversion }, CancellationToken.None);
+        }
+        public IObservable<GraphQLResponse<BLELinksResponse>> GetMeshLinksAll()
+        {
+            string? opversion = null;
+            return GetMessages<BLELinksResponse>(Subscriptions.MeshBLELinksAll, new { opversion }, CancellationToken.None);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace ApiClientExample
 {
     internal class Program
     {
-        static readonly string[] apiKeys = { "APIKEY1", "APIKEY2", "APIKEY3" };
+        static readonly string[] apiKeys = { "APIKEY1"};
            
 
 
@@ -33,13 +33,16 @@ namespace ApiClientExample
 
         static void Main(string[] args)
         {
-            foreach (var apiKey in apiKeys)
+            using var client = new CoreGraphQLClient("https://www.nanolink.com/core05", apiKeys[0]); 
+            var result = client.GetMeshLinksAll();
+            foreach (var link in result.ToEnumerable())
             {
-                var result = LookupTrackerOnInstance(apiKey, "E63280111D7C");
-                if (result != null)
+                if (link.Data.Otrackers_getlinksbulk.Type == SyncType.Updated && link.Data.Otrackers_getlinksbulk.Data != null)
                 {
-                    Console.WriteLine(JsonConvert.SerializeObject(result));
-                    break;
+                    foreach (var l in link.Data.Otrackers_getlinksbulk.Data)
+                    {
+                        Console.WriteLine($"{l.LastUpdated} {l.TransmitterVID} -> {l.ReceiverVID} : {l.RSSI}dB");
+                    }
                 }
             }
         }
